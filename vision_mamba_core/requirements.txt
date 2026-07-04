@@ -1,0 +1,12 @@
+torch>=1.8
+torchvision
+timm==0.4.12
+decord
+einops
+scikit-learn
+numpy
+scipy
+matplotlib
+pandas
+opencv-python
+av

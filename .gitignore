@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+
+# PyTorch weights and model checkpoints
+*.pth
+**/*.pth
+*.pt
+**/*.pt
+
+# Virtual environments
+venv/
+.venv/
+env/
+**/venv/
+**/.venv/
+
+# Dataset folders (both raw and unified)
+**/crime_dataset/
+**/dataset/crime_dataset/
+**/DATASET/
+**/unified/
+
+# Editor/OS/System files
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# Large media files or output assets (excluding docs folder images)
+**/*.mp4
+**/*.avi
+**/*.mov
+**/*.MOV
+**/*.mkv
+**/*.png
+**/*.jpg
+**/*.jpeg
+!**/docs/**/*.png
+!**/docs/**/*.jpg
+!**/docs/**/*.jpeg

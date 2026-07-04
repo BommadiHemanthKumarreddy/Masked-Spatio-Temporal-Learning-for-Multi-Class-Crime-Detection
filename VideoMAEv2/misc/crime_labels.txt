@@ -1,0 +1,13 @@
+dragging
+hitting
+snatching
+kicking
+pushing
+robbery
+hair_pulling
+punching
+slapping
+abuse
+neck_grabbing
+shooting
+stabbing
