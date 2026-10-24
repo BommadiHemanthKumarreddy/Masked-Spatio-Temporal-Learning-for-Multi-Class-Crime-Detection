@@ -157,3 +157,6 @@ checkpoints/
 # Allow project images and evaluation plots
 !misc/*.png
 !plots/*.png
+
+# Allow project dataset source code package
+!dataset/
