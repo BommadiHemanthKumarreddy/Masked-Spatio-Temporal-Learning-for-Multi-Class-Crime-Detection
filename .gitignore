@@ -1,0 +1,67 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Datasets and videos
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.npy
+*.npz
+*.h5
+*.hdf5
+
+# Embeddings and model checkpoints
+languagebind_2sec/
+langbind_features_new/
+embeddings/
+features/
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+
+# Training outputs and logs
+logs/
+finetune_output*/
+attention_results/
+cache_dir/
+*.log
+*.err
+*.out
+
+# Secrets
+.env
+.env.*
+
+# Backup files
+*.backup
+*.backup*
+*.bak
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.env
+.env.*
+
+# Model checkpoints and generated data
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+
+# Logs and temporary reports
+*.log
+*_embeddings*.txt
+*_report.txt
+
+# Local video and test data
+*.mp4
+one_video.json
+test_inference_video_paths.json
