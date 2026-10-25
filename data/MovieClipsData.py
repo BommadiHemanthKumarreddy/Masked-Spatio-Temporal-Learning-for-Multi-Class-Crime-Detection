@@ -15,7 +15,7 @@ class MovieClipsData(Dataset):
         self.args = args
         self.long_term_task = args.long_term_task
         self.df = pd.read_csv(csv_file)
-        self.SEGMENT_LENGTH = 5
+        self.SEGMENT_LENGTH = 2
         self.max_num_patch = args.num_patches
         self.pad_token = torch.nn.Parameter(torch.zeros(embedding_dim), requires_grad=False)
 

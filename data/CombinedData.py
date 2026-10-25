@@ -17,7 +17,7 @@ class CombinedData(Dataset):
         self.duration_min = duration_min
         self.duration_max = duration_max
 
-        self.SEGMENT_LENGTH = 5
+        self.SEGMENT_LENGTH = 2
         # self.SEGMENT_LENGTH = 10
         self.max_len = num_patches
         self.pad_token = torch.nn.Parameter(torch.zeros(embedding_dim), requires_grad=False)
@@ -40,12 +40,15 @@ class CombinedData(Dataset):
                 path_list = eval(row['segment_paths'])  # Converting string representation of list to actual list
                 number_of_segments = row['number_of_segments']
 
-                while number_of_segments * (1 - self.mask_ratio) < 1:
+                   
+    
+    
+                    #while number_of_segments * (1 - self.mask_ratio) < 1:
                     # Get the list of paths and the corresponding length
-                    idx = random.randint(0, len(self.df) - 1)
-                    row = self.df.iloc[idx]
-                    path_list = eval(row['segment_paths'])  # Converting string representation of list to actual list
-                    number_of_segments = row['number_of_segments']
+                    #idx = random.randint(0, len(self.df) - 1)
+                    #row = self.df.iloc[idx]
+                    #path_list = eval(row['segment_paths'])  # Converting string representation of list to actual list
+                    #number_of_segments = row['number_of_segments']
 
                 # Sample video duration between duration_min and duration_max. If it exceeds take the max len.
                 self.duration = torch.randint(self.duration_min, self.duration_max + 1, (1,)).item()

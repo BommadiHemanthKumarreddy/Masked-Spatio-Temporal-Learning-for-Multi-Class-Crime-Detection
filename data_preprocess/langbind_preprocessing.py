@@ -30,7 +30,7 @@ def main():
     args = parser.parse_args()
 
     # Model initialization
-    batch_size = 16
+    batch_size = 2
     video_model_name = 'LanguageBind_Video_Huge_V1.5_FT'
     device = 'cuda'
     clip_type = {'video': video_model_name}  # use only video type
@@ -62,23 +62,14 @@ def main():
 
         for k, out_path in enumerate(out_paths):
             os.makedirs(out_path, exist_ok=True)
-            save_path = os.path.join(out_path, 'langbind_output.pt')
-            start_time_str, end_time_str = os.path.basename(out_path).split('-')
+            save_path = os.path.join(out_path, "langbind_output.pt")
 
-            # Convert the split strings to integers
-            start_time = int(start_time_str)
-            end_time = int(end_time_str)
             res_dict = {
-                'embedding': embeddings[k],
-                'start': start_time,
-                'end': end_time,
-            }
+                "embedding": embeddings[k],
+                "video_name": os.path.basename(in_paths[k]),
+    }
+
             torch.save(res_dict, save_path)
-
-    os.makedirs(os.path.split(args.end_job_file)[0], exist_ok=True)
-    with open(args.end_job_file, 'w') as file:
-        file.write("finished")
-
 
 if __name__ == '__main__':
     main()

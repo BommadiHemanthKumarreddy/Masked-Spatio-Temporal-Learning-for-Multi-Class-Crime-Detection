@@ -15,7 +15,7 @@ from pathlib import Path
 import torch
 import torch.distributed as dist
 from torch.distributed import init_process_group
-from torch._six import inf
+from math import inf
 
 
 class SmoothedValue(object):
