@@ -1,0 +1,38 @@
+#!/bin/bash
+#PBS -N gpu_mem_test
+#PBS -o gpu_memory_test.out
+#PBS -e gpu_memory_test.err
+#PBS -j n
+#PBS -l select=1:ncpus=2:mem=4gb:ngpus=1
+#PBS -l place=free
+cd /home/y_rajeshwar/final_year_project_29/v_mea2/lv-mae-2sec
+
+source /home/y_rajeshwar/miniconda3/etc/profile.d/conda.sh
+conda activate /home/y_rajeshwar/miniconda3/envs/lv-mae
+
+echo "===== PBS INFO ====="
+echo "Host: $(hostname)"
+echo "Job ID: $PBS_JOBID"
+echo "CUDA_VISIBLE_DEVICES: $CUDA_VISIBLE_DEVICES"
+echo
+
+echo "===== NVIDIA-SMI ====="
+nvidia-smi
+echo
+
+echo "===== PYTORCH ====="
+python - <<'PY'
+import torch
+
+print("Torch:", torch.__version__)
+print("CUDA available:", torch.cuda.is_available())
+
+if torch.cuda.is_available():
+    print("GPU:", torch.cuda.get_device_name(0))
+    print("Total GB:", round(torch.cuda.get_device_properties(0).total_memory / 1024**3, 2))
+    print("Allocated GB:", round(torch.cuda.memory_allocated() / 1024**3, 4))
+    print("Reserved GB:", round(torch.cuda.memory_reserved() / 1024**3, 4))
+PY
+
+echo
+echo "===== END ====="

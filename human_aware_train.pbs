@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N human_aware_train
+#PBS -o human_aware_train.out
+#PBS -e human_aware_train.err
+#PBS -j n
+#PBS -q testq
+#PBS -l select=1:ncpus=4:mem=16gb:ngpus=1
+#PBS -l walltime=96:00:00
+
+cd /home/y_rajeshwar/final_year_project_29/v_mea2/lv-mae-2sec
+
+source /home/y_rajeshwar/miniconda3/etc/profile.d/conda.sh
+conda activate /home/y_rajeshwar/miniconda3/envs/lv-mae
+
+export OMP_NUM_THREADS=4
+export MKL_NUM_THREADS=4
+export OPENBLAS_NUM_THREADS=4
+export NUMEXPR_NUM_THREADS=4
+
+echo "============================================================"
+echo "Human-Aware LanguageBind preprocessing - CLEAN TRAIN"
+echo "Start: $(date)"
+echo "Host: $(hostname)"
+echo "Job ID: ${PBS_JOBID}"
+echo "CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES}"
+echo "============================================================"
+
+nvidia-smi
+
+python data_preprocess/langbind_preprocessing_human_2sec_clean.py \
+    --split train \
+    --output_root /home/y_rajeshwar/final_year_project_29/langbind_features_human_clean
+
+STATUS=$?
+
+echo "============================================================"
+echo "End: $(date)"
+echo "Exit status: ${STATUS}"
+echo "============================================================"
+
+exit ${STATUS}	

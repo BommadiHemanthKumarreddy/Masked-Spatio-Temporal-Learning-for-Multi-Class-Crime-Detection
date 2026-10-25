@@ -1,0 +1,76 @@
+======================================================================
+COLLECTING VIDEOS
+======================================================================
+Total videos found: 698
+
+======================================================================
+HASHING SEGMENT EMBEDDINGS
+======================================================================
+Unique embedding hashes: 2065
+
+======================================================================
+BUILDING DUPLICATE GROUPS
+======================================================================
+Total unique video groups: 662
+Duplicate-linked groups: 36
+
+======================================================================
+CHECKING LABEL CONFLICTS
+======================================================================
+Groups containing multiple labels: 5
+
+CONFLICT GROUP 1
+train abuse ScreenRecording_12-12-2025_00-07-09_1_MP4
+train shooting ScreenRecording_12-12-2025_00-07-09_1
+
+CONFLICT GROUP 2
+train neck_grabbing ScreenRecording_12-12-2025_00-07-09_1_3
+test abuse ScreenRecording_12-12-2025_00-07-09_1_2
+
+CONFLICT GROUP 3
+train punching Screen_Recording_2025-12-13_215242
+train slapping Recording_2025-12-13_215244
+
+CONFLICT GROUP 4
+train punching Screen_Recording_2025-12-13_215558
+test slapping Recording_2025-12-13_215559
+
+CONFLICT GROUP 5
+train punching Screen_Recording_2025-12-13_215825
+train slapping Recording_2025-12-13_215828
+
+Groups after removing label conflicts: 657
+
+======================================================================
+CREATING TRAIN / VAL / TEST SPLIT
+======================================================================
+abuse                train= 36 test=  9
+dragging             train= 55 test= 13
+hair_pulling         train= 44 test= 10
+hitting              train= 55 test= 13
+kicking              train= 24 test=  6
+neck_grabbing        train= 48 test= 11
+punching             train= 48 test= 12
+pushing              train= 16 test=  3
+robbery              train= 32 test=  7
+shooting             train= 51 test= 12
+slapping             train= 48 test= 12
+snatching            train= 49 test= 12
+stabbing             train= 50 test= 12
+
+======================================================================
+COPYING CLEAN DATASET
+======================================================================
+
+======================================================================
+FINAL CLEAN SPLIT
+======================================================================
+TRAIN: 556 videos
+TEST : 132 videos
+
+Removed because of conflicting duplicate labels: 10 videos
+
+Output:
+/home/y_rajeshwar/final_year_project_29/dataset/2sec/langbind_features_clean_80_20
+
+DONE.
