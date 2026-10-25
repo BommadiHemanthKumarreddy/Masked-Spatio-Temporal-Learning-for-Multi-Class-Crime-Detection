@@ -1,0 +1,70 @@
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+
+# PyTorch weights and model checkpoints
+*.pth
+**/*.pth
+*.pt
+**/*.pt
+
+# Virtual environments
+venv/
+.venv/
+env/
+**/venv/
+**/.venv/
+
+# Dataset folders (both raw and unified)
+**/crime_dataset/
+**/dataset/crime_dataset/
+**/DATASET/
+**/unified/
+
+# Editor/OS/System files
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# Large media files or output assets (excluding docs folder images)
+**/*.mp4
+**/*.avi
+**/*.mov
+**/*.MOV
+**/*.mkv
+**/*.png
+**/*.jpg
+**/*.jpeg
+!**/docs/**/*.png
+!**/docs/**/*.jpg
+!**/docs/**/*.jpeg
+
+VideoMAEv2/
+vision_mamba_core/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Logs and generated files
+*.log
+cache_dir/
+logs/
+finetune_output_new/
+
+# Model checkpoints
+*.pth
+*.pt
+*.ckpt
+
+# Backup and old versions
+*.bak
+*_backup.py
+*_old.py
+*_before_*.py
+
+# Temporary files
+one_video.json
+--video_path_file
