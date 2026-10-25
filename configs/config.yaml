@@ -1,0 +1,41 @@
+dataset:
+  class_names:
+  - Dragging
+  - Hitting
+  - Kicking
+  - Pushing
+  - abuse
+  - hair pulling
+  - neck grabbing
+  - punch
+  - robbery
+  - shooting
+  - slap
+  - snatching
+  - stabbing
+  num_classes: 13
+  root: /home/y_rajeshwar/final_year_project_29/dataset_new_split
+mamba:
+  d_state: 16
+  hidden_dim: 768
+  num_layers: 2
+masking:
+  alpha: 0.7
+  mask_ratio: 0.9
+motion:
+  method: frame_difference
+saliency:
+  method: spatial_gradient
+training:
+  amp_fp16: true
+  batch_size: 2
+  epochs: 100
+  lr: 1.0e-05
+  num_workers: 2
+  pretrain_epoch: 100
+  weight_decay: 0.05
+video:
+  image_size: 224
+  num_frames: 16
+  patch_size: 16
+  tubelet_size: 2
