@@ -1,0 +1,12 @@
+{
+  "file_paths": [
+    [
+      "/home/y_rajeshwar/final_year_project_29/dataset/train/abuse/ScreenRecording_12-12-2025_00-07-09_1.MOV",
+      "/home/y_rajeshwar/final_year_project_29/dataset/2sec/langbind_features/train/abuse/ScreenRecording_12-12-2025_00-07-09_1_MOV"
+    ],
+    [
+      "/home/y_rajeshwar/final_year_project_29/dataset/train/abuse/ScreenRecording_12-12-2025_00-07-09_1.MP4",
+      "/home/y_rajeshwar/final_year_project_29/dataset/2sec/langbind_features/train/abuse/ScreenRecording_12-12-2025_00-07-09_1_MP4"
+    ]
+  ]
+}
