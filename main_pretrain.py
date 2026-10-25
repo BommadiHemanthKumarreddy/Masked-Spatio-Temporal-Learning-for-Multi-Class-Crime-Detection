@@ -38,7 +38,7 @@ from util.data_util import load_data
 os.environ['MASTER_ADDR'] = '127.0.0.1'
 os.environ['MASTER_PORT'] = '12365'
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 def get_args_parser():
     parser = argparse.ArgumentParser('MAE pre-training', add_help=False)
@@ -53,7 +53,7 @@ def get_args_parser():
     parser.add_argument('--mask_ratio', default=0.7, type=float, help='Masking ratio (percentage of removed patches).')
     parser.add_argument('--norm_pix_loss', action='store_true', help='Use (per-patch) normalized pixels as targets for computing loss')
     parser.set_defaults(norm_pix_loss=False)
-    parser.add_argument('--depth', default=32, type=int, help='images input size')
+    parser.add_argument('--depth', default=12, type=int, help='images input size')
     parser.add_argument('--num_heads', default=8, type=int, help='images input size')
     parser.add_argument('--decoder_embed_dim', default=512, type=int, help='images input size')
     parser.add_argument('--decoder_depth', default=8, type=int, help='images input size')
@@ -71,13 +71,13 @@ def get_args_parser():
     # Dataset parameters
     parser.add_argument('--data_path', default='/mnt/efs0/naimani/data', type=str, help='dataset path')
     parser.add_argument('--dataset', default='combined', type=str, help='dataset name',
-                        choices=['combined'])
+                        choices=['combined', 'langbind_2sec'])
     parser.add_argument('--output_dir', default='./output_dir', help='path where to save, empty for no saving')
     parser.add_argument('--log_dir', default='./output_dir', help='path where to tensorboard log')
     parser.add_argument('--device', default='cuda:0', help='device to use for training / testing')
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('--resume', default='', help='resume from checkpoint')
-    parser.add_argument('--num_patches', default=256, type=int)
+    parser.add_argument('--num_patches', default=20, type=int)
     parser.add_argument('--duration_max', default=1280, type=int)
     parser.add_argument('--start_epoch', default=0, type=int, metavar='N', help='start epoch')
     parser.add_argument('--num_workers', default=10, type=int)
@@ -87,7 +87,7 @@ def get_args_parser():
 
     # distributed training parameters
     parser.add_argument('--distributed', action='store_true', help='whether running distributed processes')
-    parser.add_argument('--world_size', default=8, type=int, help='number of distributed processes')
+    parser.add_argument('--world_size', default=1, type=int, help='number of distributed processes')
     parser.add_argument('--local_rank', default=-1, type=int)
     parser.add_argument('--rank', default=0, type=int)
     parser.add_argument('--dist_on_itp', action='store_true')
@@ -130,7 +130,7 @@ def main(rank, world_size, args):
 
     cudnn.benchmark = True
 
-    args.duration_max = args.num_patches * 5
+    args.duration_max = args.num_patches * 2
     data_loader_train, data_loader_val = load_data(args)
 
     os.makedirs(args.log_dir, exist_ok=True)
