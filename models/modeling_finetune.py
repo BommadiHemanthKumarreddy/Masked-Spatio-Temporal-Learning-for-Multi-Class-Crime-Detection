@@ -399,8 +399,10 @@ class VisionTransformer(nn.Module):
 
         self.apply(self._init_weights)
 
-        self.head.weight.data.mul_(init_scale)
-        self.head.bias.data.mul_(init_scale)
+        if hasattr(self.head, "weight") and getattr(self.head, "weight", None) is not None:
+            self.head.weight.data.mul_(init_scale)
+        if hasattr(self.head, "bias") and getattr(self.head, "bias", None) is not None:
+            self.head.bias.data.mul_(init_scale)
 
     def _init_weights(self, m):
         if isinstance(m, nn.Linear):
@@ -425,6 +427,24 @@ class VisionTransformer(nn.Module):
         self.num_classes = num_classes
         self.head = nn.Linear(
             self.embed_dim, num_classes) if num_classes > 0 else nn.Identity()
+
+    
+    def get_patch_features(self, x):
+        B = x.size(0)
+        x = self.patch_embed(x)
+
+        if self.pos_embed is not None:
+            x = x + self.pos_embed.expand(B, -1, -1).type_as(x).to(
+                x.device).clone().detach()
+        x = self.pos_drop(x)
+
+        for blk in self.blocks:
+            if self.with_cp:
+                x = cp.checkpoint(blk, x)
+            else:
+                x = blk(x)
+
+        return self.norm(x)
 
     def forward_features(self, x):
         B = x.size(0)
