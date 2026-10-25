@@ -14,7 +14,7 @@ def make_list_of_images(x):
     return x
 
 
-torchaudio.set_audio_backend("soundfile")
+torchaudio.set_audio_backend("sox_io")
 
 def torchaudio_loader(path):
     return torchaudio.load(path)
