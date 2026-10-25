@@ -1,84 +1,222 @@
-## 📰 News
-- (June 2025) We are happy to announce that the paper has been accepted to *ICCV 2025* 🌺
+# Masked Spatio-Temporal Learning for Multi-Class Crime Detection
 
-## LV-MAE: Learning Long Video Representations through Masked-Embedding Autoencoders
+## 📰 Updates
 
-### [Paper](https://arxiv.org/pdf/2504.03501)
-![lvmae_arch](assets/lvmae_arch.png)
-## ℹ️ Overview
-We introduce LV-MAE, a self-supervised learning framework for long video representation. The idea is simple: LV-MAE leverages powerful off-the-shelf multimodal encoders to extract embeddings from short video segments, then pre-trains a masked-embedding autoencoder to model high-level interactions across the entire video.
-We welcome you to use our code and benchmark to develop new methods and applications for time series data.
-Our model can serve as a strong baseline for comparison and evaluation of new models.
+- We extend the LV-MAE framework toward multi-class crime detection using short video segments and spatio-temporal representation learning.
+- This repository includes the modified preprocessing, LanguageBind embedding extraction, model fine-tuning, and evaluation pipelines.
+
+## 🎯 Overview
+
+This project explores a deep learning framework for multi-class crime detection in videos, building upon **LV-MAE (Learning Long Video Representations through Masked-Embedding Autoencoders)**.
+
+The pipeline processes videos into short segments, extracts multimodal video representations using LanguageBind, and uses learned spatio-temporal features for downstream crime classification.
+
+The project explores the following components:
+
+- **Video segmentation:** Divides videos into 2-second segments for finer-grained temporal analysis.
+- **LanguageBind feature extraction:** Converts video segments into embedding representations.
+- **LV-MAE representation learning:** Learns high-level temporal relationships between segment embeddings.
+- **Summary Token:** Provides a compact representation intended to aggregate information across the video sequence.
+- **Temporal attention:** Helps the model focus on informative segments and temporal relationships.
+- **Crime classification:** Fine-tunes the learned representations to predict crime categories.
+
+The objective is to investigate whether combining masked-embedding learning with temporal modeling can improve video-based crime recognition.
+
+## 🏗️ Methodology
+
+The overall pipeline consists of the following stages:
+
+1. **Input video:** A crime-related or non-crime video is provided as input.
+2. **Video segmentation:** The video is divided into consecutive 2-second segments.
+3. **Preprocessing:** Segment metadata and input paths are prepared for feature extraction.
+4. **LanguageBind encoder:** Each segment is processed to obtain an embedding representation.
+5. **Spatio-temporal representation learning:** The LV-MAE framework models relationships between segment embeddings.
+6. **Summary Token and temporal attention:** The modified architecture aggregates temporal information and emphasizes informative segments.
+7. **Fine-tuning:** The learned representations are used to train a classifier for multiple crime categories.
+8. **Prediction:** The model produces a predicted class for the input video.
 
 ## 🛠️ Setup
-Download and set up the repository:
+
+Clone the repository:
+
 ```bash
-git clone TODO
-cd dir_name
+git clone https://github.com/BommadiHemanthKumarreddy/Masked-Spatio-Temporal-Learning-for-Multi-Class-Crime-Detection.git
+cd Masked-Spatio-Temporal-Learning-for-Multi-Class-Crime-Detection
 ```
 
-We provide a [`requirements.yaml`](requirements.yaml) file to easily create a Conda environment configured to run the model:
+Create the Conda environment using the environment configuration provided in the repository:
+
 ```bash
-conda env create -f requirements.yaml
-conda activate lv_mae
+conda env create -f environment.yml
 ```
-## 📊 Data
 
-Data can be obtained from the following sources:
-- For the LVU benchmark, we followed [ViS4mer](https://github.com/md-mohaiminul/ViS4mer) 
-- Download the [Breakfast](https://serre-lab.clps.brown.edu/resource/breakfast-actions-dataset/) dataset.
-- Download the [COIN](https://coin-dataset.github.io/) dataset.
+Activate the environment using the environment name defined in `environment.yml`:
 
-To use our method, data must first be preprocessed using off-the-shelf multimodal encoders. We provide example code using the LanguageBind model. Similar code can be applied to other models. To extract features, follow these steps:
+```bash
+conda env list
+conda activate <environment_name>
+```
 
-1. After downloading the dataset, run `segment_video_library_movie_clip.py` (for movie clips; similar code can be applied to other datasets). This will generate `segments_metadata.csv` containing paths to 5-second segments. The segment length can be easily modified in the code.
+Install any additional dependencies required by your environment and verify that the appropriate PyTorch and CUDA versions are available.
 
-2. Using this CSV file, extract paired input/output paths to save the processed embeddings. The code in `prepare_paired_paths.py` creates pairwise paths that will be used in the next step.
+## 📊 Dataset and Preprocessing
 
-3. Using these paths, run `langbind_preprocessing.py` to create LanguageBind embeddings for each segment.
+The project uses video data for multi-class crime detection.
 
-4. Finally, to create the CSV file for training, run `segment_dataframe_movie_clip.py`.
+**Dataset:** [Add the exact dataset name and its official source.]
 
-5. This process can be repeated for each dataset, then combine all CSV files into one for training on multiple datasets.
+The dataset must be prepared before model training. The preprocessing pipeline includes:
 
-If you use these datasets, please cite the sources as referenced in our [paper](https://arxiv.org/pdf/2504.03501).
+1. **Video segmentation:** Split the source videos into 2-second clips.
+2. **Metadata generation:** Create metadata containing segment paths and the information required for processing.
+3. **Feature extraction:** Use LanguageBind to extract embeddings for the generated segments.
+4. **Dataset preparation:** Organize the embeddings and labels into the format expected by the fine-tuning dataset loader.
+5. **Train/test preparation:** Generate the appropriate dataset splits while avoiding overlap or leakage between related videos.
 
+### Preprocessing scripts
+
+The repository contains scripts for segment metadata creation, preprocessing, and LanguageBind feature extraction. Review the command-line arguments in each script before running it.
+
+Relevant scripts include:
+
+- `data_preprocess/create_2sec_metadata.py`
+- `data_preprocess/create_prepro_json.py`
+- `data_preprocess/langbind_preprocessing_2sec.py`
+- `data_preprocess/langbind_preprocessing_2sec_v2.py`
+- `data_preprocess/segment_video_library_movie_clip_2sec.py`
+- `data_preprocess/segment_dataframe_movie_clip.py`
+- `data_preprocess/prepare_paired_paths.py`
+
+The exact scripts required depend on the dataset and the preprocessing stage.
+
+**Note:** Dataset files, generated embeddings, and model checkpoints are not included in this repository unless explicitly provided.
+
+## 🧠 Model Architecture
+
+### LV-MAE Backbone
+
+The project builds upon LV-MAE, which learns video representations by masking and reconstructing segment-level embeddings. Instead of directly operating on every raw video frame throughout the full sequence, the embedding-based approach models higher-level video information.
+
+### Summary Token
+
+The modified architecture incorporates a Summary Token intended to aggregate information from the video sequence into a compact representation. This representation can be used by the downstream classification pipeline.
+
+### Temporal Attention
+
+Temporal attention is used to model the relative importance of video segments and their relationships over time. It is intended to help the model emphasize informative temporal patterns associated with different classes.
+
+### Multi-Class Crime Classifier
+
+The fine-tuning stage maps the learned video representation to the target crime categories. The predicted class depends on the labels and category definitions used in the training dataset.
 
 ## 🔥 Pre-training
 
-For pre-training, you should run `main_pretrain.py` using the following recommended parms:
+LV-MAE pre-training is performed using `main_pretrain.py`.
+
+Example command structure:
 
 ```bash
-python main_pretrain.py --batch_size 16 --dataset combined --decoder_depth 8 --decoder_embed_dim 512 --decoder_num_heads 16 --depth 32 --epochs 151 --input_size 1024 --mask_ratio .5 --num_heads 16 --num_patches 256 --distributed --world_size 8 --masking_strategy
+python main_pretrain.py \
+    --batch_size 16 \
+    --dataset combined \
+    --decoder_depth 8 \
+    --decoder_embed_dim 512 \
+    --decoder_num_heads 16 \
+    --depth 32 \
+    --epochs 151 \
+    --input_size 1024 \
+    --mask_ratio 0.5 \
+    --num_heads 16 \
+    --num_patches 256
 ```
 
-## 📈 Evaluating
-Evaluate your trained model you can do it via attentive probing or linear probing.
+These arguments are an example based on the upstream LV-MAE configuration. Confirm the available arguments and required dataset settings in your version of `main_pretrain.py` before running the command.
+
+## 🎯 Fine-tuning
+
+Fine-tune the model for multi-class crime classification using `main_finetune.py`.
 
 ```bash
-python test_ap_movie_clip.py --batch_size 16 --task scene --epochs 30 --lr 3e-4
+python main_finetune.py --help
 ```
+
+Configure the dataset paths, number of classes, model checkpoint, training parameters, and other required arguments according to the script.
+
+The fine-tuning pipeline uses the prepared segment embeddings and corresponding labels to train the crime classification model.
+
+## 📈 Evaluation
+
+Evaluate the fine-tuned model using the evaluation scripts included in the repository.
+
 ```bash
-python test_lp_movie_clip.py --batch_size 16 --task scene --epochs 30 --lr 3e-4 
+python evaluate_finetune.py --help
 ```
-We observe small batch sizes perform better. Choose the task using "task" argument.
 
----
+Additional scripts are available for testing the model, inspecting embeddings, and extracting attention information, including:
 
-### Acknowledgment  
-This project builds upon the [MAE repository](https://github.com/facebookresearch/mae) from the paper [*Masked Autoencoders Are Scalable Vision Learners*](https://arxiv.org/abs/2111.06377).
+- `test.py`
+- `test_classifier.py`
+- `test_dataset.py`
+- `test_extract.py`
+- `test_langbind_clip.py`
+- `test_load.py`
+- `extract_attention.py`
 
+Report evaluation metrics such as accuracy, precision, recall, and F1-score using the actual test-set results. Specify the dataset split and evaluation protocol so that results can be interpreted consistently.
 
-## BibTeX
+## 📁 Repository Structure
+
+```text
+.
+├── assets/
+├── data/
+├── data_preprocess/
+├── languagebind/
+├── loggers/
+├── util/
+├── classifier.py
+├── dataset_finetune.py
+├── engine_finetune.py
+├── evaluate_finetune.py
+├── main_finetune.py
+├── main_pretrain.py
+├── models_mae.py
+├── test.py
+├── environment.yml
+└── README.md
 ```
+
+## ⚠️ Notes
+
+- The dataset must be downloaded and prepared separately.
+- Generated embeddings and trained model checkpoints may require substantial storage.
+- The training commands must match the arguments implemented in the current scripts.
+- Performance claims should be based on reproducible evaluation results.
+- This repository is intended for research and educational purposes.
+
+## 🙏 Acknowledgments
+
+This project builds upon the LV-MAE framework:
+
+- **LV-MAE:** [Learning Long Video Representations through Masked-Embedding Autoencoders](https://arxiv.org/abs/2504.03501)
+- **Original LV-MAE repository:** [amazon-science/lv-mae](https://github.com/amazon-science/lv-mae)
+- **MAE:** [Masked Autoencoders Are Scalable Vision Learners](https://arxiv.org/abs/2111.06377)
+- **LanguageBind:** [LanguageBind GitHub repository](https://github.com/PKU-YuanGroup/LanguageBind)
+
+Please refer to the original papers and repositories for their respective licenses and citation requirements.
+
+## 📚 BibTeX
+
+```bibtex
 @article{naiman2025lvmae,
   title={{LV-MAE:} Learning Long Video Representations through Masked-Embedding Autoencoders},
-  author={Ilan Naiman and Emanuel Ben Baruch and Oron Anschel and Alon Shoshan and Igor Kviatkovsky and Manoj Aggarwal and G{\'{e}}rard G. Medioni},
+  author={Naiman, Ilan and Ben Baruch, Emanuel and Anschel, Oron and
+          Shoshan, Alon and Kviatkovsky, Igor and Aggarwal, Manoj and
+          Medioni, G{\'e}rard G.},
   journal={CoRR},
   volume={abs/2504.03501},
   year={2025}
 }
 ```
 
-
-
+If you use this repository in academic work, please cite the original LV-MAE paper and any additional datasets or models that your work builds upon.
